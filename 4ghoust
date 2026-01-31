@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>a haiku a day</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --pink: #ff5fa8;
+  --warm: rgba(255, 140, 180, 0.35);
+  --chrome: linear-gradient(135deg, #ffffff, #bdbdbd, #ffffff);
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top, var(--warm), transparent 45%),
+    radial-gradient(circle at bottom, rgba(255,255,255,0.1), transparent 50%),
+    #000;
+  color: #f5f0f3;
+  font-family: 'Playfair Display', serif;
+  overflow-x: hidden;
+}
+
+/* FILM GRAIN */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* INTRO */
+#intro {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+#intro h1 {
+  font-size: 2.6rem;
+  letter-spacing: 0.22em;
+  background: var(--chrome);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+#intro p {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: var(--pink);
+  margin-top: 22px;
+}
+
+/* MAIN */
+main {
+  display: none;
+  padding: 80px 16px;
+  position: relative;
+}
+
+/* GHOSTS */
+.ghost {
+  width: 140px;
+  margin: 40px auto 80px;
+  opacity: 0.45;
+  animation: float 6s ease-in-out infinite;
+}
+
+.ghost.second {
+  margin: 120px auto 60px;
+  opacity: 0.35;
+  animation-duration: 7.5s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+/* HAIKU CARD */
+.haiku {
+  max-width: 620px;
+  margin: 0 auto 90px;
+  padding: 38px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.65);
+  box-shadow: 0 0 50px rgba(255,95,168,0.2);
+  position: relative;
+  transition: all 0.7s ease;
+}
+
+.haiku:hover {
+  box-shadow: 0 0 80px rgba(255,95,168,0.45);
+}
+
+.meta {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 22px;
+}
+
+.text {
+  white-space: pre-line;
+  font-size: 1.28rem;
+  line-height: 1.95;
+  text-align: center;
+}
+
+/* LOCKED */
+.locked {
+  opacity: 0.22;
+  filter: blur(9px);
+}
+
+/* FINAL DEVOTIONAL SIGN */
+#final-sign {
+  max-width: 420px;
+  margin: 120px auto 40px;
+  padding: 28px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.55);
+  box-shadow: 0 0 40px rgba(255,95,168,0.25);
+  letter-spacing: 0.35em;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.7rem;
+  opacity: 0.4;
+  margin: 120px 0 40px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+  <div>
+    <h1>a haiku a day</h1>
+    <p>touch to enter</p>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- FIRST GHOST -->
+  <div class="ghost">
+    <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 250
+               Q50 220 70 240
+               Q90 220 110 240
+               Q130 220 150 240
+               Q160 220 160 200
+               L160 80
+               Q100 20 40 80
+               Z"
+            fill="white" opacity="0.9"/>
+      <circle cx="80" cy="120" r="8" fill="#000" opacity="0.4"/>
+      <circle cx="120" cy="120" r="8" fill="#000" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div id="haiku-container"></div>
+
+  <!-- SECOND GHOST (FOLLOWS YOU) -->
+  <div class="ghost second">
+    <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 250
+               Q55 225 75 245
+               Q95 225 115 245
+               Q135 225 150 240
+               Q160 215 160 200
+               L160 90
+               Q100 30 40 90
+               Z"
+            fill="white" opacity="0.85"/>
+      <circle cx="85" cy="125" r="7" fill="#000" opacity="0.35"/>
+      <circle cx="115" cy="125" r="7" fill="#000" opacity="0.35"/>
+    </svg>
+  </div>
+
+  <!-- FINAL DEVOTIONAL SIGN -->
+  <div id="final-sign" class="locked">
+    xxFFK
+  </div>
+
+  <footer>desire is archived here</footer>
+</main>
+
+<script>
+/* START DATE */
+const startDate = new Date("2026-02-09");
+
+/* HAIKU */
+const rawHaikuText = `
+The day breaks when you
+Wake up from dream and stasis
+You are the sunlight
+
+---
+I crave your smell and
+Taste lingers after you go
+Rinse repeat rinse re–
+
+---
+Where are my headphones
+In my bag,In my coat, Fuck!
+Here in my hand. Fuck!
+
+---
+I sweat with you most
+Can you let me drown in it
+No air just sweet trust
+
+---
+Pqrincess thickiana
+Particular, rare, rare,breed
+Best served warm over face
+
+---
+I’d say I don’t think
+About you while I daydream
+It would be a lie
+`;
+
+const haikus = rawHaikuText.trim().split('---').map(h => h.trim());
+const today = new Date();
+today.setHours(0,0,0,0);
+
+const container = document.getElementById("haiku-container");
+
+haikus.forEach((haiku, index) => {
+  const revealDate = new Date(startDate);
+  revealDate.setDate(startDate.getDate() + index);
+
+  const block = document.createElement("div");
+  block.className = "haiku";
+  if (today < revealDate) block.classList.add("locked");
+
+  block.innerHTML = `
+    <div class="meta">Day ${index + 1} · ${revealDate.toDateString()}</div>
+    <div class="text">${haiku}</div>
+  `;
+
+  container.appendChild(block);
+});
+
+/* UNLOCK FINAL SIGN AFTER LAST DAY */
+const lastReveal = new Date(startDate);
+lastReveal.setDate(startDate.getDate() + haikus.length - 1);
+
+if (today >= lastReveal) {
+  document.getElementById("final-sign").classList.remove("locked");
+}
+
+/* INTRO */
+document.getElementById("intro").onclick = () => {
+  intro.style.display = "none";
+  main.style.display = "block";
+};
+</script>
+
+</body>
+</html>
